@@ -112,29 +112,33 @@ define(['@grafana/data', 'react', '@grafana/ui', '@grafana/runtime'], function (
         );
   }
 
-  class RootComponent extends React.PureComponent {
-    render() {
-      const { extensions } = runtime.getPluginExtensions({
-        extensionPointId: 'plugins/myorg-extensionpoint-app/actions',
-        context: {},
-      });
+  const RootComponent = () => {
+    const extensionPointId = 'plugins/myorg-extensionpoint-app/actions';
+    const context = {};
+    const { isLoading, extensions } = runtime.usePluginExtensions({
+      extensionPointId,
+      context,
+    });
 
-      return React.createElement(
-        'div',
-        { 'data-testid': styles.container, style: { marginTop: '5%' } },
+    if (isLoading) {
+      return React.createElement(UI.LoadingPlaceholder, { text: 'Loading...' });
+    }
+
+    return React.createElement(
+      'div',
+      { 'data-testid': styles.container, style: { marginTop: '5%' } },
+      React.createElement(
+        UI.HorizontalGroup,
+        { align: 'flex-start', justify: 'center' },
         React.createElement(
           UI.HorizontalGroup,
-          { align: 'flex-start', justify: 'center' },
-          React.createElement(
-            UI.HorizontalGroup,
-            null,
-            React.createElement('span', null, 'Hello Grafana! These are the actions you can trigger from this plugin'),
-            React.createElement(ActionComponent, { extensions: extensions })
-          )
+          null,
+          React.createElement('span', null, 'Hello Grafana! These are the actions you can trigger from this plugin'),
+          React.createElement(ActionComponent, { extensions: extensions })
         )
-      );
-    }
-  }
+      )
+    );
+  };
 
   const plugin = new data.AppPlugin().setRootPage(RootComponent);
   return { plugin: plugin };
