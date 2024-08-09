@@ -32,12 +32,14 @@
     "grafanaDependency": ">=10.3.3",
     "plugins": []
   },
-  "extensions": [
-    {
-      "extensionPointId": "plugins/myorg-extensionpoint-app/actions",
-      "title": "Open from B",
-      "description": "Open a modal from plugin B",
-      "type": "link"
-    }
-  ]
+  "generated": {
+    "extensions": [
+      {
+        "extensionPointId": "plugins/myorg-extensionpoint-app/actions",
+        "title": "Open from B",
+        "description": "Open a modal from plugin B",
+        "type": "link"
+      }
+    ]
+  }
 }
