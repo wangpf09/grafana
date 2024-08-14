@@ -1,7 +1,5 @@
-import { PluginExposedComponentConfig } from '@grafana/data';
-
 import { PluginPreloadResult } from '../../pluginPreloader';
-import { logWarning } from '../utils';
+import { logWarning, wrapWithPluginContext } from '../utils';
 
 import { Registry } from './Registry';
 
@@ -31,7 +29,7 @@ export class AddedComponentsRegistry extends Registry<RegistryType> {
       return registry;
     }
 
-    for (const config of addedComponentConfigs) {
+    for (const config of addedComponentConfigs!) {
       // assertStringProps(extension, ['title', 'description', 'extensionPointId']);
       // assert targets are valid ()
       // assertIsReactComponent(extension.component);
@@ -45,6 +43,7 @@ export class AddedComponentsRegistry extends Registry<RegistryType> {
 
         registry[extensionPointId].push({
           ...config,
+          component: wrapWithPluginContext(pluginId, config.component),
           pluginId,
         });
       }

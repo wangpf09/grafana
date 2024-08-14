@@ -7,7 +7,6 @@ import { getPluginSettings } from 'app/features/plugins/pluginSettings';
 import { ReactivePluginExtensionsRegistry } from './extensions/reactivePluginExtensionRegistry';
 import { AddedComponentsRegistry } from './extensions/registry/AddedComponentsRegistry';
 import { ExposedComponentsRegistry } from './extensions/registry/ExposedComponentsRegistry';
-import { Registry } from './extensions/registry/Registry';
 import * as pluginLoader from './plugin_loader';
 
 export type PluginPreloadResult = {
@@ -15,12 +14,12 @@ export type PluginPreloadResult = {
   error?: unknown;
   extensionConfigs: PluginExtensionConfig[];
   exposedComponentConfigs: PluginExposedComponentConfig[];
-  addedComponentConfigs: PluginAddedComponentConfig[];
+  addedComponentConfigs?: PluginAddedComponentConfig[];
 };
 
 type PluginExtensionRegistries = {
   addedComponentsRegistry: AddedComponentsRegistry;
-  exportedComponentsRegistry: ExposedComponentsRegistry;
+  exposedComponentsRegistry: ExposedComponentsRegistry;
 };
 
 export async function preloadPlugins(
@@ -46,6 +45,7 @@ export async function preloadPlugins(
       configs: preloadedPlugin.exposedComponentConfigs,
     });
     registries.addedComponentsRegistry.register(preloadedPlugin);
+    registries.exposedComponentsRegistry.register(preloadedPlugin);
   }
 
   stopMeasure(eventName);
