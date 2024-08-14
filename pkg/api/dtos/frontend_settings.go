@@ -2,6 +2,7 @@ package dtos
 
 import (
 	"github.com/grafana/grafana-azure-sdk-go/v2/azsettings"
+	"github.com/grafana/grafana/pkg/apiserver/rest"
 	"github.com/grafana/grafana/pkg/plugins"
 	"github.com/grafana/grafana/pkg/setting"
 )
@@ -280,4 +281,7 @@ type FrontendSettingsDTO struct {
 	// Experimental Scope settings
 	ListScopesEndpoint          string `json:"listScopesEndpoint"`
 	ListDashboardScopesEndpoint string `json:"listDashboardScopesEndpoint"`
+
+	// Unified Storage
+	UnifiedStorage map[string]rest.DualWriterMode `json:"unifiedStorage,omitempty"`
 }
