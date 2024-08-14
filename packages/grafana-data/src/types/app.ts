@@ -160,6 +160,7 @@ export class AppPlugin<T extends KeyValue = KeyValue> extends GrafanaPlugin<AppP
     this.addComponent({
       targets: [extension.extensionPointId],
       ...extension,
+      component: extension.component as ComponentType,
     });
 
     return this;
