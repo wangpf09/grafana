@@ -21,14 +21,6 @@
   "includes": [
     {
       "type": "page",
-      "name": "Page One",
-      "path": "/a/grafana-extensionstest-app/one",
-      "role": "Admin",
-      "addToNav": true,
-      "defaultNav": true
-    },
-    {
-      "type": "page",
       "name": "Legacy APIs",
       "path": "/a/grafana-extensionstest-app/legacy-apis",
       "role": "Admin",
@@ -39,22 +31,6 @@
       "type": "page",
       "name": "Exposed components",
       "path": "/a/grafana-extensionstest-app/exposed-components",
-      "role": "Admin",
-      "addToNav": true,
-      "defaultNav": false
-    },
-    {
-      "type": "page",
-      "name": "Page Three",
-      "path": "/a/grafana-extensionstest-app/three",
-      "role": "Admin",
-      "addToNav": true,
-      "defaultNav": false
-    },
-    {
-      "type": "page",
-      "name": "Page Four",
-      "path": "/a/grafana-extensionstest-app/four",
       "role": "Admin",
       "addToNav": true,
       "defaultNav": false

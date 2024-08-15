@@ -12,7 +12,7 @@ export function App(props: AppRootProps) {
         <Route path={ROUTES.LegacyAPIs} element={<LegacyAPIs />} />
         <Route path={ROUTES.ExposedComponents} element={<ExposedComponents />} />
 
-        <Route path={ROUTES.LegacyAPIs} element={<LegacyAPIs />} />
+        <Route path={'*'} element={<LegacyAPIs />} />
       </Routes>
     </div>
   );
