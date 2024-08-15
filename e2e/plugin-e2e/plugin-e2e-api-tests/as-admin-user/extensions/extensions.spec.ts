@@ -7,7 +7,7 @@ const testIds = {
     container: 'ape-modal-body',
   },
   mainPage: {
-    container: 'ape-main-page-container',
+    container: 'main-app-body',
   },
 };
 
