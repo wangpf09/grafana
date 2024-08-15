@@ -7,13 +7,13 @@ import (
 	"time"
 
 	"github.com/go-sql-driver/mysql"
-	"go.opentelemetry.io/otel/trace"
+	"github.com/grafana/grafana/pkg/infra/tracing"
+	"github.com/grafana/grafana/pkg/services/sqlstore"
+	"github.com/grafana/grafana/pkg/storage/unified/sql/db"
 	"xorm.io/xorm"
-
-	"github.com/grafana/grafana/pkg/services/store/entity/db"
 )
 
-func getEngineMySQL(getter *sectionGetter, _ trace.Tracer) (*xorm.Engine, error) {
+func getEngineMySQL(getter *sectionGetter, tracer tracing.Tracer) (*xorm.Engine, error) {
 	config := mysql.NewConfig()
 	config.User = getter.String("db_user")
 	config.Passwd = getter.String("db_pass")
@@ -23,6 +23,10 @@ func getEngineMySQL(getter *sectionGetter, _ trace.Tracer) (*xorm.Engine, error)
 	config.Params = map[string]string{
 		// See: https://dev.mysql.com/doc/refman/en/sql-mode.html
 		"@@SESSION.sql_mode": "ANSI",
+	}
+	tls := getter.String("db_tls")
+	if tls != "" {
+		config.Params["tls"] = tls
 	}
 	config.Collation = "utf8mb4_unicode_ci"
 	config.Loc = time.UTC
@@ -47,7 +51,8 @@ func getEngineMySQL(getter *sectionGetter, _ trace.Tracer) (*xorm.Engine, error)
 	}
 
 	// FIXME: get rid of xorm
-	engine, err := xorm.NewEngine(db.DriverMySQL, config.FormatDSN())
+	driverName := sqlstore.WrapDatabaseDriverWithHooks(db.DriverMySQL, tracer)
+	engine, err := xorm.NewEngine(driverName, config.FormatDSN())
 	if err != nil {
 		return nil, fmt.Errorf("open database: %w", err)
 	}
@@ -59,7 +64,7 @@ func getEngineMySQL(getter *sectionGetter, _ trace.Tracer) (*xorm.Engine, error)
 	return engine, nil
 }
 
-func getEnginePostgres(getter *sectionGetter, _ trace.Tracer) (*xorm.Engine, error) {
+func getEnginePostgres(getter *sectionGetter, tracer tracing.Tracer) (*xorm.Engine, error) {
 	dsnKV := map[string]string{
 		"user":     getter.String("db_user"),
 		"password": getter.String("db_pass"),
@@ -101,7 +106,8 @@ func getEnginePostgres(getter *sectionGetter, _ trace.Tracer) (*xorm.Engine, err
 	}
 
 	// FIXME: get rid of xorm
-	engine, err := xorm.NewEngine(db.DriverPostgres, dsn)
+	driverName := sqlstore.WrapDatabaseDriverWithHooks(db.DriverPostgres, tracer)
+	engine, err := xorm.NewEngine(driverName, dsn)
 	if err != nil {
 		return nil, fmt.Errorf("open database: %w", err)
 	}
