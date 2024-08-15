@@ -1,6 +1,6 @@
 import { PluginExtension, PluginExtensionLink, SelectableValue, locationUtil } from '@grafana/data';
 import { isPluginExtensionLink, locationService } from '@grafana/runtime';
-import { Button, ButtonGroup, ButtonSelect, Modal, ToolbarButton, VerticalGroup } from '@grafana/ui';
+import { Button, ButtonGroup, ButtonSelect, Modal, Stack, ToolbarButton, VerticalGroup } from '@grafana/ui';
 import { testIds } from 'components/testIds';
 
 import React, { ReactElement, useMemo, useState } from 'react';
@@ -81,9 +81,9 @@ export function LinkModal(props: LinkModelProps): ReactElement {
 
   return (
     <Modal data-testid={testIds.modal.container} title={title} isOpen onDismiss={onDismiss}>
-      <VerticalGroup spacing="sm">
+      <Stack direction={'column'}>
         <p>Do you want to proceed in the current tab or open a new tab?</p>
-      </VerticalGroup>
+      </Stack>
       <Modal.ButtonRow>
         <Button onClick={onDismiss} fill="outline" variant="secondary">
           Cancel

@@ -1,4 +1,2 @@
-export { PageFour } from './PageFour';
-export { PageOne } from './PageOne';
-export { PageThree } from './PageThree';
+export { ExposedComponents } from './ExposedComponents';
 export { LegacyAPIs } from './LegacyAPIs';
