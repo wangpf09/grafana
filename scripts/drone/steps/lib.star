@@ -875,6 +875,7 @@ def playwright_e2e_tests_step():
         ],
         "commands": [
             "npx wait-on@7.0.1 http://$HOST:$PORT",
+            "yarn e2e:plugin:build",
             "yarn playwright install --with-deps chromium",
             "yarn e2e:playwright",
         ],

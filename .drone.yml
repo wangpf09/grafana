@@ -734,6 +734,7 @@ steps:
     - grafana/grafana
 - commands:
   - npx wait-on@7.0.1 http://$HOST:$PORT
+  - yarn e2e:plugin:build
   - yarn playwright install --with-deps chromium
   - yarn e2e:playwright
   depends_on:
@@ -2141,6 +2142,7 @@ steps:
     - grafana/grafana
 - commands:
   - npx wait-on@7.0.1 http://$HOST:$PORT
+  - yarn e2e:plugin:build
   - yarn playwright install --with-deps chromium
   - yarn e2e:playwright
   depends_on:
@@ -6074,6 +6076,6 @@ kind: secret
 name: gcr_credentials
 ---
 kind: signature
-hmac: d35eadf9a166f68973ffd6df85f165bbda468d422d5debe416ec6a5af6ead84a
+hmac: 37b67d523fc4f9b6fb92ccd64021d346ecdf003799247f14cf0fd259716006ff
 
 ...
