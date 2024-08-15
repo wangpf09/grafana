@@ -52,7 +52,12 @@ mkdir -p "$RUNDIR/data/plugins"
 #   # ln -s $(realpath ../e2e/custom-plugins/*) "$RUNDIR/data/plugins"
 # fi
 
-ln -s $(realpath ./e2e/custom-plugins/*) "$RUNDIR/data/plugins"
+if [ -d "./e2e/custom-plugins" ]; then
+  ln -s $(realpath ./e2e/custom-plugins/*) "$RUNDIR/data/plugins"
+# when running in CI
+elif [ -d "../e2e/custom-plugins" ]; then
+  cp -r "../e2e/custom-plugins" "$RUNDIR/data/plugins"
+fi
 
 echo -e "Copy provisioning setup from devenv"
 
