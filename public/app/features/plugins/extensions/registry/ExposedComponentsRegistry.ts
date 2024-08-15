@@ -4,7 +4,7 @@ import { logWarning } from '../utils';
 
 import { Registry, RegistryType, PluginExtensionConfigs } from './Registry';
 
-export class ExposedComponentsRegistry extends Registry<PluginExposedComponentConfig> {
+export class ExposedComponentsRegistry extends Registry<PluginExposedComponentConfig, PluginExposedComponentConfig> {
   constructor(initialState: RegistryType<PluginExposedComponentConfig> = {}) {
     super({
       initialState,

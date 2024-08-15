@@ -24,7 +24,7 @@ export function createUsePluginComponents(registry: AddedComponentsRegistry) {
       const registryItem = registry[id];
       return {
         isLoading: false,
-        components: registryItem.map((item) => item.component as React.ComponentType<Props>),
+        components: registryItem.config.map((item) => item.component as React.ComponentType<Props>),
       };
     }, [id, registry]);
   };

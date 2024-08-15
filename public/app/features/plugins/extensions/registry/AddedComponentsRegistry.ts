@@ -10,7 +10,7 @@ export type AddedComponentConfig<Props = {}> = {
   component: React.ComponentType<Props>;
 };
 
-export class AddedComponentsRegistry extends Registry<AddedComponentConfig[]> {
+export class AddedComponentsRegistry extends Registry<AddedComponentConfig[], PluginAddedComponentConfig> {
   constructor(initialState: RegistryType<AddedComponentConfig[]> = {}) {
     super({
       initialState,
@@ -19,32 +19,30 @@ export class AddedComponentsRegistry extends Registry<AddedComponentConfig[]> {
 
   mapToRegistry(
     registry: RegistryType<AddedComponentConfig[]>,
-    item: PluginExtensionConfigs<PluginAddedComponentConfig[]>
+    item: PluginExtensionConfigs<PluginAddedComponentConfig>
   ): RegistryType<AddedComponentConfig[]> {
     const { pluginId, configs } = item;
 
-    for (const addedComponents of configs) {
-      for (const config of addedComponents) {
-        // assertStringProps(extension, ['title', 'description', 'extensionPointId']);
-        // assert targets are valid ()
-        // assertIsReactComponent(extension.component);
+    for (const config of configs) {
+      // assertStringProps(extension, ['title', 'description', 'extensionPointId']);
+      // assert targets are valid ()
+      // assertIsReactComponent(extension.component);
 
-        const extensionPointIds = Array.isArray(config.targets) ? config.targets : [config.targets];
-        for (const extensionPointId of extensionPointIds) {
-          const result = {
-            component: wrapWithPluginContext(pluginId, config.component),
-            description: config.description,
-            title: config.title,
+      const extensionPointIds = Array.isArray(config.targets) ? config.targets : [config.targets];
+      for (const extensionPointId of extensionPointIds) {
+        const result = {
+          component: wrapWithPluginContext(pluginId, config.component),
+          description: config.description,
+          title: config.title,
+        };
+
+        if (!(extensionPointId in extensionPointIds)) {
+          registry[extensionPointId] = {
+            pluginId,
+            config: [result],
           };
-
-          if (!(extensionPointId in extensionPointIds)) {
-            registry[extensionPointId] = {
-              pluginId,
-              config: [result],
-            };
-          } else {
-            registry[extensionPointId].config.push(result);
-          }
+        } else {
+          registry[extensionPointId].config.push(result);
         }
       }
     }
