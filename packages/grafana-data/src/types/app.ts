@@ -135,7 +135,17 @@ export class AppPlugin<T extends KeyValue = KeyValue> extends GrafanaPlugin<AppP
   }
 
   addComponent<Props = {}>(addedComponentConfig: PluginAddedComponentConfig) {
-    this._addedComponentConfigs.push(addedComponentConfig);
+    const targets = Array.isArray(addedComponentConfig.targets)
+      ? addedComponentConfig.targets
+      : [addedComponentConfig.targets];
+
+    for (const target of targets) {
+      this._addedComponentConfigs.push({
+        ...addedComponentConfig,
+        targets: target,
+      });
+      this._addedComponentConfigs.push(addedComponentConfig);
+    }
 
     return this;
   }

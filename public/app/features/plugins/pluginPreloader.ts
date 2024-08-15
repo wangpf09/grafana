@@ -44,8 +44,10 @@ export async function preloadPlugins(
       pluginId: preloadedPlugin.pluginId,
       configs: preloadedPlugin.exposedComponentConfigs,
     });
-    registries.addedComponentsRegistry.register(preloadedPlugin);
-    registries.exposedComponentsRegistry.register(preloadedPlugin);
+    registries.addedComponentsRegistry.register({
+      pluginId: preloadedPlugin.pluginId,
+      configs: preloadedPlugin.addedComponentConfigs || [],
+    });
   }
 
   stopMeasure(eventName);

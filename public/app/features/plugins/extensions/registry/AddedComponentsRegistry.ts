@@ -1,51 +1,51 @@
-import { PluginPreloadResult } from '../../pluginPreloader';
-import { logWarning, wrapWithPluginContext } from '../utils';
+import { PluginAddedComponentConfig } from '@grafana/data';
 
-import { Registry } from './Registry';
+import { wrapWithPluginContext } from '../utils';
 
-export type RegistryType = {
-  [id: string]: Array<{
-    pluginId: string;
-    title: string;
-    description: string;
-    component: React.ComponentType<{}>;
-  }>;
+import { PluginExtensionConfigs, Registry, RegistryType } from './Registry';
+
+export type AddedComponentConfig<Props = {}> = {
+  title: string;
+  description: string;
+  component: React.ComponentType<Props>;
 };
 
-export class AddedComponentsRegistry extends Registry<RegistryType> {
-  constructor(initialState: RegistryType = {}) {
+export class AddedComponentsRegistry extends Registry<AddedComponentConfig[]> {
+  constructor(initialState: RegistryType<AddedComponentConfig[]> = {}) {
     super({
       initialState,
     });
   }
 
-  mapToRegistry(registry: RegistryType, item: PluginPreloadResult): RegistryType {
-    const { pluginId, error, addedComponentConfigs } = item;
+  mapToRegistry(
+    registry: RegistryType<AddedComponentConfig[]>,
+    item: PluginExtensionConfigs<PluginAddedComponentConfig[]>
+  ): RegistryType<AddedComponentConfig[]> {
+    const { pluginId, configs } = item;
 
-    // TODO: We should probably move this section to where we load the plugin since this is only used
-    // to provide a log to the user.
-    if (error) {
-      logWarning(`"${pluginId}" plugin failed to load, skip registering its extensions.`);
-      return registry;
-    }
+    for (const addedComponents of configs) {
+      for (const config of addedComponents) {
+        // assertStringProps(extension, ['title', 'description', 'extensionPointId']);
+        // assert targets are valid ()
+        // assertIsReactComponent(extension.component);
 
-    for (const config of addedComponentConfigs!) {
-      // assertStringProps(extension, ['title', 'description', 'extensionPointId']);
-      // assert targets are valid ()
-      // assertIsReactComponent(extension.component);
+        const extensionPointIds = Array.isArray(config.targets) ? config.targets : [config.targets];
+        for (const extensionPointId of extensionPointIds) {
+          const result = {
+            component: wrapWithPluginContext(pluginId, config.component),
+            description: config.description,
+            title: config.title,
+          };
 
-      const extensionPointIds = Array.isArray(config.targets) ? config.targets : [config.targets];
-
-      for (const extensionPointId of extensionPointIds) {
-        if (!(extensionPointId in registry)) {
-          registry[extensionPointId] = [];
+          if (!(extensionPointId in extensionPointIds)) {
+            registry[extensionPointId] = {
+              pluginId,
+              config: [result],
+            };
+          } else {
+            registry[extensionPointId].config.push(result);
+          }
         }
-
-        registry[extensionPointId].push({
-          ...config,
-          component: wrapWithPluginContext(pluginId, config.component),
-          pluginId,
-        });
       }
     }
 
