@@ -9,11 +9,11 @@ apps:
       apiUrl: http://default-url.com
     secureJsonData:
       apiKey: secret-key
-  - type: myorg-c-app
+  - type: grafana-extensionexample1-app
     org_id: 1
     org_name: Main Org.
     disabled: false
-  - type: myorg-d-app
+  - type: grafana-extensionexample2-app
     org_id: 1
     org_name: Main Org.
     disabled: false

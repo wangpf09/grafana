@@ -8,7 +8,7 @@ type ReusableComponentProps = {
 
 export function ExposedComponents() {
   var { component: ReusableComponent } = usePluginComponent<ReusableComponentProps>(
-    'myorg-c-app/reusable-component/v1'
+    'grafana-extensionexample1-app/reusable-component/v1'
   );
 
   if (!ReusableComponent) {
