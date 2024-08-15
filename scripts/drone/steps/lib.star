@@ -506,6 +506,7 @@ def build_frontend_package_step(depends_on = []):
         "apk add --update jq bash",  # bash is needed for the validate-npm-packages.sh script since it has a 'bash'
         # shebang.
         "yarn packages:build",
+        "yarn e2e:plugin:build",
         "yarn packages:pack",
         "./scripts/validate-npm-packages.sh",
     ]
@@ -875,7 +876,6 @@ def playwright_e2e_tests_step():
         ],
         "commands": [
             "npx wait-on@7.0.1 http://$HOST:$PORT",
-            "yarn e2e:plugin:build",
             "yarn playwright install --with-deps chromium",
             "yarn e2e:playwright",
         ],

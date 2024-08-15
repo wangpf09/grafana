@@ -592,6 +592,7 @@ steps:
 - commands:
   - apk add --update jq bash
   - yarn packages:build
+  - yarn e2e:plugin:build
   - yarn packages:pack
   - ./scripts/validate-npm-packages.sh
   depends_on:
@@ -734,7 +735,6 @@ steps:
     - grafana/grafana
 - commands:
   - npx wait-on@7.0.1 http://$HOST:$PORT
-  - yarn e2e:plugin:build
   - yarn playwright install --with-deps chromium
   - yarn e2e:playwright
   depends_on:
@@ -2012,6 +2012,7 @@ steps:
 - commands:
   - apk add --update jq bash
   - yarn packages:build
+  - yarn e2e:plugin:build
   - yarn packages:pack
   - ./scripts/validate-npm-packages.sh
   depends_on:
@@ -2142,7 +2143,6 @@ steps:
     - grafana/grafana
 - commands:
   - npx wait-on@7.0.1 http://$HOST:$PORT
-  - yarn e2e:plugin:build
   - yarn playwright install --with-deps chromium
   - yarn e2e:playwright
   depends_on:
@@ -6076,6 +6076,6 @@ kind: secret
 name: gcr_credentials
 ---
 kind: signature
-hmac: 37b67d523fc4f9b6fb92ccd64021d346ecdf003799247f14cf0fd259716006ff
+hmac: 458d8c2529c4c1413c9a251946aee635a9e4d436dd70f441e1b315ca09264fbe
 
 ...
