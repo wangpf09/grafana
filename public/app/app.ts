@@ -124,6 +124,7 @@ if (process.env.NODE_ENV === 'development') {
 
 export class GrafanaApp {
   context!: GrafanaContextType;
+  extensionRegistries!: { common: ReactivePluginExtensionsRegistry; exposedComponents: ExposedComponentsRegistry };
 
   async init() {
     try {
@@ -263,6 +264,11 @@ export class GrafanaApp {
         keybindings: keybindingsService,
         newAssetsChecker,
         config,
+      };
+
+      this.extensionRegistries = {
+        common: extensionsRegistry,
+        exposedComponents: exposedComponentsRegistry,
       };
 
       setReturnToPreviousHook(useReturnToPreviousInternal);
