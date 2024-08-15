@@ -592,7 +592,6 @@ steps:
 - commands:
   - apk add --update jq bash
   - yarn packages:build
-  - yarn e2e:plugin:build
   - yarn packages:pack
   - ./scripts/validate-npm-packages.sh
   depends_on:
@@ -2012,7 +2011,6 @@ steps:
 - commands:
   - apk add --update jq bash
   - yarn packages:build
-  - yarn e2e:plugin:build
   - yarn packages:pack
   - ./scripts/validate-npm-packages.sh
   depends_on:
@@ -6076,6 +6074,6 @@ kind: secret
 name: gcr_credentials
 ---
 kind: signature
-hmac: 458d8c2529c4c1413c9a251946aee635a9e4d436dd70f441e1b315ca09264fbe
+hmac: d35eadf9a166f68973ffd6df85f165bbda468d422d5debe416ec6a5af6ead84a
 
 ...
