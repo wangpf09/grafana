@@ -13,5 +13,6 @@ export const testIds = {
   appB: {
     modal: 'b-app-modal',
     reusableComponent: 'b-app-configure-extension-component',
+    reusableAddedComponent: 'b-app-add-component',
   },
 };

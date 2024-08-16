@@ -26,8 +26,8 @@ export const testIds = {
   pageTwo: {
     container: 'data-testid pg-two-container',
   },
-  pageThree: {
-    container: 'data-testid pg-three-container',
+  addedComponentsPage: {
+    container: 'data-testid pg-added-components-container',
   },
   pageFour: {
     container: 'data-testid pg-four-container',

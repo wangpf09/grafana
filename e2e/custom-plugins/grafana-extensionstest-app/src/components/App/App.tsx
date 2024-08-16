@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AppRootProps } from '@grafana/data';
 import { ROUTES } from '../../constants';
-import { ExposedComponents, LegacyAPIs } from '../../pages';
+import { AddedComponents, ExposedComponents, LegacyAPIs } from '../../pages';
 import { testIds } from 'components/testIds';
 
 export function App(props: AppRootProps) {
@@ -11,8 +11,9 @@ export function App(props: AppRootProps) {
       <Routes>
         <Route path={ROUTES.LegacyAPIs} element={<LegacyAPIs />} />
         <Route path={ROUTES.ExposedComponents} element={<ExposedComponents />} />
+        <Route path={ROUTES.AddedComponents} element={<AddedComponents />} />
 
-        <Route path={'*'} element={<LegacyAPIs />} />
+        {/* <Route path={'*'} element={<LegacyAPIs />} /> */}
       </Routes>
     </div>
   );

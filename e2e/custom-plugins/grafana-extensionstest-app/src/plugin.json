@@ -37,6 +37,14 @@
     },
     {
       "type": "page",
+      "name": "Added components",
+      "path": "/a/grafana-extensionstest-app/added-components",
+      "role": "Admin",
+      "addToNav": true,
+      "defaultNav": false
+    },
+    {
+      "type": "page",
       "icon": "cog",
       "name": "Configuration",
       "path": "/plugins/grafana-extensionstest-app",

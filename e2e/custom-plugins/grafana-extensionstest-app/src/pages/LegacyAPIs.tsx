@@ -26,11 +26,14 @@ export function LegacyAPIs() {
     <PluginPage>
       <Stack direction={'column'} gap={4} data-testid={testIds.pageTwo.container}>
         <article>
-          <h3>Link extensions defined with configureExtensionLink</h3>
+          <h3>Link extensions defined with configureExtensionLink and retrived using getPluginExtensions</h3>
           <ActionButton extensions={extensions} />
         </article>
         <article>
-          <h3>Component extensions defined with configureExtensionComponent</h3>
+          <h3>
+            Component extensions defined with configureExtensionComponent and retrived using
+            getPluginComponentExtensions
+          </h3>
           {componentExtensions.map((extension) => {
             const Component = extension.component;
             return <Component key={extension.id} name="World" />;
