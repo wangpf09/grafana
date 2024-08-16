@@ -18,6 +18,22 @@ type ConstructorOptions<T> = {
   initialState: RegistryType<T>;
 };
 
+export class ReadOnlyRegistry<T> {
+  private registryObservable: ReplaySubject<RegistryType<T>>;
+
+  constructor(registryObservable: ReplaySubject<RegistryType<T>>) {
+    this.registryObservable = registryObservable;
+  }
+
+  asObservable(): Observable<RegistryType<T>> {
+    return this.registryObservable.asObservable();
+  }
+
+  getState(): Promise<RegistryType<T>> {
+    return firstValueFrom(this.asObservable());
+  }
+}
+
 // This is the base-class used by the separate specific registries.
 export abstract class Registry<T> {
   private resultSubject: Subject<PluginExtensionConfigs<T>>;
@@ -53,5 +69,10 @@ export abstract class Registry<T> {
 
   getState(): Promise<RegistryType<T>> {
     return firstValueFrom(this.asObservable());
+  }
+
+  // Returns a read-only version of the registry.
+  readOnly(): ReadOnlyRegistry<T> {
+    return new ReadOnlyRegistry(this.registrySubject);
   }
 }
