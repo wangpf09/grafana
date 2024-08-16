@@ -24,6 +24,11 @@ import { appEvents, contextSrv } from 'app/core/core';
 import { getNotFoundNav, getWarningNav, getExceptionNav } from 'app/core/navigation/errorModels';
 import { getMessageFromError } from 'app/core/utils/errors';
 
+import {
+  ExtensionRegistriesProvider,
+  useExposedComponentsRegistry,
+  useReactiveExtensionRegistry,
+} from '../extensions/ExtensionRegistriesContext';
 import { getPluginSettings } from '../pluginSettings';
 import { importAppPlugin } from '../plugin_loader';
 import { buildPluginSectionNav, pluginsLogger } from '../utils';
@@ -48,6 +53,8 @@ interface State {
 const initialState: State = { loading: true, loadingError: false, pluginNav: null, plugin: null };
 
 export function AppRootPage({ pluginId, pluginNavSection }: Props) {
+  const reactiveExtensionsRegistry = useReactiveExtensionRegistry();
+  const exposedComponentsRegistry = useExposedComponentsRegistry();
   const match = useRouteMatch();
   const location = useLocation();
   const [state, dispatch] = useReducer(stateSlice.reducer, initialState);
@@ -88,13 +95,20 @@ export function AppRootPage({ pluginId, pluginNavSection }: Props) {
 
   const pluginRoot = plugin.root && (
     <PluginContextProvider meta={plugin.meta}>
-      <plugin.root
-        meta={plugin.meta}
-        basename={match.url}
-        onNavChanged={onNavChanged}
-        query={queryParams}
-        path={location.pathname}
-      />
+      <ExtensionRegistriesProvider
+        registries={{
+          common: reactiveExtensionsRegistry,
+          exposedComponents: exposedComponentsRegistry.readOnly(),
+        }}
+      >
+        <plugin.root
+          meta={plugin.meta}
+          basename={match.url}
+          onNavChanged={onNavChanged}
+          query={queryParams}
+          path={location.pathname}
+        />
+      </ExtensionRegistriesProvider>
     </PluginContextProvider>
   );
 

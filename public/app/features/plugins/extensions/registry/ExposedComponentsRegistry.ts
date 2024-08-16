@@ -1,3 +1,5 @@
+import { ReplaySubject } from 'rxjs';
+
 import { PluginExposedComponentConfig } from '@grafana/data';
 
 import { logWarning } from '../utils';
@@ -5,10 +7,13 @@ import { logWarning } from '../utils';
 import { Registry, RegistryType, PluginExtensionConfigs } from './Registry';
 
 export class ExposedComponentsRegistry extends Registry<PluginExposedComponentConfig> {
-  constructor(initialState: RegistryType<PluginExposedComponentConfig> = {}) {
-    super({
-      initialState,
-    });
+  constructor(
+    options: {
+      registrySubject?: ReplaySubject<RegistryType<PluginExposedComponentConfig>>;
+      initialState?: RegistryType<PluginExposedComponentConfig>;
+    } = {}
+  ) {
+    super(options);
   }
 
   mapToRegistry(
@@ -57,4 +62,10 @@ export class ExposedComponentsRegistry extends Registry<PluginExposedComponentCo
 
     return registry;
   }
+
+  // readOnly(): ExposedComponentsRegistry {
+  //   return new ExposedComponentsRegistry({
+  //     registrySubject: this.registrySubject,
+  //   });
+  // }
 }
