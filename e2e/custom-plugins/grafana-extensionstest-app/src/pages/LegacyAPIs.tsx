@@ -1,9 +1,13 @@
 import React from 'react';
 import { testIds } from '../components/testIds';
-import { PluginPage, getPluginExtensions } from '@grafana/runtime';
+import { PluginPage, getPluginComponentExtensions, getPluginExtensions } from '@grafana/runtime';
 import { ActionButton } from 'components/ActionButton';
+import { Stack } from '@grafana/ui';
 
 type AppExtensionContext = {};
+type ReusableComponentProps = {
+  name: string;
+};
 
 export function LegacyAPIs() {
   const extensionPointId = 'plugins/grafana-extensionstest-app/actions';
@@ -13,13 +17,26 @@ export function LegacyAPIs() {
     extensionPointId,
     context,
   });
-  console.log('extensions', extensions);
+
+  const { extensions: componentExtensions } = getPluginComponentExtensions<ReusableComponentProps>({
+    extensionPointId: 'plugins/grafana-extensionexample2-app/configure-extension-component/v1',
+  });
 
   return (
     <PluginPage>
-      <div data-testid={testIds.pageTwo.container}>
-        <ActionButton extensions={extensions} />
-      </div>
+      <Stack direction={'column'} gap={4} data-testid={testIds.pageTwo.container}>
+        <article>
+          <h3>Link extensions defined with configureExtensionLink</h3>
+          <ActionButton extensions={extensions} />
+        </article>
+        <article>
+          <h3>Component extensions defined with configureExtensionComponent</h3>
+          {componentExtensions.map((extension) => {
+            const Component = extension.component;
+            return <Component key={extension.id} name="World" />;
+          })}
+        </article>
+      </Stack>
     </PluginPage>
   );
 }

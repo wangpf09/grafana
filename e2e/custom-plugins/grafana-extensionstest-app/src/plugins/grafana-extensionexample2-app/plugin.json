@@ -8,7 +8,7 @@
     "keywords": ["app"],
     "description": "Will extend root app with ui extensions",
     "author": {
-      "name": "Myorg"
+      "name": "grafana"
     },
     "logos": {
       "small": "img/logo.svg",

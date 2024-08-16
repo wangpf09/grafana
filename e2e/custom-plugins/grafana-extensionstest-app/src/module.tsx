@@ -5,7 +5,6 @@ import pluginJson from 'plugin.json';
 import { QueryModal } from 'components/QueryModal';
 import { selectQuery } from 'utils/utils';
 
-console.log('aaaaap');
 export const plugin = new AppPlugin<{}>()
   .setRootPage(App)
   .configureExtensionLink<PluginExtensionPanelContext>({
