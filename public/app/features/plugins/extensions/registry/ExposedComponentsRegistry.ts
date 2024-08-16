@@ -62,10 +62,4 @@ export class ExposedComponentsRegistry extends Registry<PluginExposedComponentCo
 
     return registry;
   }
-
-  // readOnly(): ExposedComponentsRegistry {
-  //   return new ExposedComponentsRegistry({
-  //     registrySubject: this.registrySubject,
-  //   });
-  // }
 }

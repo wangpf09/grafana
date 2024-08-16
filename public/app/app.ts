@@ -124,7 +124,7 @@ if (process.env.NODE_ENV === 'development') {
 
 export class GrafanaApp {
   context!: GrafanaContextType;
-  extensionRegistries!: { common: ReactivePluginExtensionsRegistry; exposedComponents: ExposedComponentsRegistry };
+  extensionRegistries!: { exposedComponents: ExposedComponentsRegistry };
 
   async init() {
     try {
@@ -267,7 +267,6 @@ export class GrafanaApp {
       };
 
       this.extensionRegistries = {
-        common: extensionsRegistry,
         exposedComponents: exposedComponentsRegistry,
       };
 
